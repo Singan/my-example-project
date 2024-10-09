@@ -1,7 +1,8 @@
 package com.example.review;
 
 import com.example.common.BaseTimeEntity;
-import com.example.product.Product;
+import com.example.product.ProductEntity;
+import com.example.review.domain.Review;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,8 +12,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
-public class Review extends BaseTimeEntity {
+@Table(name = "review")
+public class ReviewEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "BIGINT(20)")
@@ -30,16 +31,29 @@ public class Review extends BaseTimeEntity {
     @Column
     private String content;
 
-    @JoinColumn
+    @JoinColumn(name = "product_id")
     @ManyToOne(cascade = CascadeType.ALL)
-    private Product product;
+    private ProductEntity productEntity;
 
     @Builder
-    public Review(Long id, Long userId, Float score, String imageUrl, String content, Product product) {
+    public ReviewEntity(Long id, Long userId, Float score, String imageUrl, String content, ProductEntity productEntity) {
         this.id = id;
         this.userId = userId;
         this.score = score;
         this.imageUrl = imageUrl;
         this.content = content;
+        this.productEntity = productEntity;
+    }
+
+
+    public Review toDomain(){
+        return Review.builder()
+                .id(id)
+                .createDateTime(getCreateDateTime())
+                .content(content)
+                .imageUrl(imageUrl)
+                .score(score)
+                .userId(userId)
+                .build();
     }
 }

@@ -30,9 +30,11 @@ public class Review extends BaseTimeEntity {
     private String content;
 
     @Builder
-    public Review(Long id, Long userId, Float score) {
+    public Review(Long id, Long userId, Float score, String imageUrl, String content) {
         this.id = id;
         this.userId = userId;
         this.score = score;
+        this.imageUrl = imageUrl;
+        this.content = content;
     }
 }

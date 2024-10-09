@@ -18,7 +18,7 @@ public class Review extends BaseTimeEntity {
     @Column(columnDefinition = "BIGINT(20)")
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "BIGINT(20)")
+    @Column(nullable = false, columnDefinition = "BIGINT(20)", unique = true)
     private Long userId;
 
     @Column(nullable = false)
@@ -35,7 +35,7 @@ public class Review extends BaseTimeEntity {
     private Product product;
 
     @Builder
-    public Review(Long id, Long userId, Float score, String imageUrl, String content,Product product) {
+    public Review(Long id, Long userId, Float score, String imageUrl, String content, Product product) {
         this.id = id;
         this.userId = userId;
         this.score = score;

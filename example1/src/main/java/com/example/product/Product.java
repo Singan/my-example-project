@@ -1,10 +1,13 @@
 package com.example.product;
 
+import com.example.review.Review;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,12 +32,17 @@ public class Product {
     private Float score;
 
 
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews;
+
+
 
     @Builder
 
-    public Product(Long id, Long reviewCount, Float score) {
+    public Product(Long id, Long reviewCount, Float score, List<Review> reviews) {
         this.id = id;
         this.reviewCount = reviewCount;
         this.score = score;
+        this.reviews = reviews;
     }
 }

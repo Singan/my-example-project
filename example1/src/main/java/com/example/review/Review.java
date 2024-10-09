@@ -1,6 +1,7 @@
 package com.example.review;
 
 import com.example.common.BaseTimeEntity;
+import com.example.product.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,8 +30,12 @@ public class Review extends BaseTimeEntity {
     @Column
     private String content;
 
+    @JoinColumn
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Product product;
+
     @Builder
-    public Review(Long id, Long userId, Float score, String imageUrl, String content) {
+    public Review(Long id, Long userId, Float score, String imageUrl, String content,Product product) {
         this.id = id;
         this.userId = userId;
         this.score = score;

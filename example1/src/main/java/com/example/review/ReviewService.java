@@ -1,25 +1,25 @@
 package com.example.review;
 
-import com.example.product.ProductRepository;
 import com.example.product.ProductService;
+import com.example.review.repository.ReviewJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
-    private final ReviewRepository reviewRepository;
+    private final ReviewJpaRepository reviewRepository;
     private final ProductService productService;
 
-    public void reviewInsert(Long productId, Review review) {
+    public void reviewInsert(ReviewEntity reviewEntity) {
 
-        if (!productService.productExists(productId))
+        if (!productService.productExists(reviewEntity.getProductEntity().getId()))
             throw new IllegalArgumentException();
 
-        if (!userIdExist(review.getUserId()))
+        if (!userIdExist(reviewEntity.getUserId()))
             throw new IllegalArgumentException();
 
-        reviewRepository.save(review);
+        reviewRepository.save(reviewEntity);
 
     }
 

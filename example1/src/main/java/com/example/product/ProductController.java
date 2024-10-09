@@ -1,11 +1,12 @@
 package com.example.product;
 
+import com.example.product.response.ProductDetailDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,7 +19,19 @@ public class ProductController {
 
 
     @GetMapping("/products/{productId}/reviews")
-    public void productDetail(@PathVariable Long productId) throws IOException {
+    public ProductDetailDto productDetail(@PathVariable Long productId, @RequestParam Long cursor,
+                                          @PageableDefault(size = 10 , sort = "createDateTime" , direction = Sort.Direction.DESC)
+                                          PageRequest pageRequest) throws IOException {
 
+        return productService.productDetail(
+                productId,
+                cursor,
+                pageRequest);
     }
+
+    @PostMapping("/products")
+    public void productInsert() {
+        productService.productSave();
+    }
+
 }

@@ -21,7 +21,7 @@ public class ReviewController {
     public void reviewInsert(@PathVariable Long productId, MultipartFile image,
                              @RequestBody @Valid ReviewInsertDto reviewInsertDto) throws IOException {
 
-        reviewService.reviewInsert(productId,
+        reviewService.reviewInsert(
                 reviewInsertDto.getReviewWithProduct(productId)
         );
     }

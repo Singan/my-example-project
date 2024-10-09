@@ -18,11 +18,10 @@ public class ReviewController {
 
 
     @PostMapping("/products/{productId}/reviews")
-    public void reviewInsert(@PathVariable Long productId, MultipartFile image,
-                             @RequestBody @Valid ReviewInsertDto reviewInsertDto) throws IOException {
-
-        reviewService.reviewInsert(
-                reviewInsertDto.getReviewWithProduct(productId)
+    public void reviewInsert(@PathVariable Long productId,
+                              @Valid ReviewInsertDto reviewInsertDto) throws IOException {
+        reviewService.reviewInsert(productId,
+                reviewInsertDto.getReviewWithProduct()
         );
     }
 }

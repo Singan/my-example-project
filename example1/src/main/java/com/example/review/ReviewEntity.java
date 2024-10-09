@@ -32,7 +32,7 @@ public class ReviewEntity extends BaseTimeEntity {
     private String content;
 
     @JoinColumn(name = "product_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private ProductEntity productEntity;
 
     @Builder

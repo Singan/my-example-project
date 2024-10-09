@@ -4,19 +4,20 @@ import com.example.product.ProductEntity;
 import com.example.review.ReviewEntity;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import org.springframework.web.multipart.MultipartFile;
 
 public record ReviewInsertDto(
         Long userId,
         @Min(1)
         @Max(7)
         Float score,
-        String content) {
+        String content , MultipartFile image) {
 
 
-    public ReviewEntity getReviewWithProduct(Long productId) {
+    public ReviewEntity getReviewWithProduct() {
 
-        ProductEntity productEntity = ProductEntity.builder().id(productId).build();
-        return ReviewEntity.builder().productEntity(productEntity)
+
+        return ReviewEntity.builder()
                 .userId(userId).content(content).score(score).
                 build();
     }

@@ -1,11 +1,11 @@
 package com.example.product.repository;
 
-import com.example.common.ReviewPaging;
 import com.example.product.ProductEntity;
 import com.example.product.domain.Product;
 import com.example.review.ReviewEntity;
 import com.example.review.repository.ReviewJpaRepository;
 import io.lettuce.core.Limit;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
@@ -19,6 +19,8 @@ public class ProductRepositoryImpl implements ProductRepository {
     private final ReviewJpaRepository reviewJpaRepository;
     private final ProductJpaRepository productJpaRepository;
 
+    private final EntityManager em;
+
 
     @Override
     public boolean existsById(Long id) {
@@ -31,7 +33,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .orElseThrow(
                         () -> new NoSuchElementException("없는 상품입니다.")
                 );
-
+        // 역순으로 조회하면 리뷰가 없을 때 상품이 검색되지 않을 수 있어 분기처리를 해야한다.
         List<ReviewEntity> reviewEntities = reviewJpaRepository.findByProductEntityId(id, cursor, pageRequest);
 
         return product.toDomain(reviewEntities);

@@ -20,13 +20,12 @@ public class ProductController {
 
     @GetMapping("/products/{productId}/reviews")
     public ProductDetailDto productDetail(@PathVariable Long productId, @RequestParam Long cursor,
-                                          @PageableDefault(size = 10 , sort = "createDateTime" , direction = Sort.Direction.DESC)
-                                          PageRequest pageRequest) throws IOException {
+                                          @RequestParam Integer size) throws IOException {
 
         return productService.productDetail(
                 productId,
                 cursor,
-                pageRequest);
+                PageRequest.ofSize(size));
     }
 
     @PostMapping("/products")

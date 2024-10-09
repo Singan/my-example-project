@@ -11,15 +11,16 @@ public class ReviewService {
     private final ReviewJpaRepository reviewRepository;
     private final ProductService productService;
 
-    public void reviewInsert(ReviewEntity reviewEntity) {
+    public void reviewInsert(Long productId , ReviewEntity reviewEntity) {
 
-        if (!productService.productExists(reviewEntity.getProductEntity().getId()))
+        if (!productService.productExists(productId)) // 해당 글이 없다면 에러
             throw new IllegalArgumentException();
 
-        if (!userIdExist(reviewEntity.getUserId()))
+        if (userIdExist(reviewEntity.getUserId())) // 중복 유저가 있다면 에러
             throw new IllegalArgumentException();
 
         reviewRepository.save(reviewEntity);
+
 
     }
 

@@ -16,6 +16,12 @@ public record ReviewInsertDto(
 ) {
 
 
+    public ReviewEntity getReview(Long productId, String path) {
+        return ReviewEntity.builder()
+                .productEntity(ProductEntity.builder().id(productId).build())
+                .userId(userId).content(content).score(score).imageUrl(path + image.getOriginalFilename()).
+                build();
+    }
     public ReviewEntity getReview(Long productId) {
         return ReviewEntity.builder()
                 .productEntity(ProductEntity.builder().id(productId).build())

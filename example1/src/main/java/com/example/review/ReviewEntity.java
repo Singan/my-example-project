@@ -29,6 +29,7 @@ public class ReviewEntity extends BaseTimeEntity {
     @Column
     private String imageUrl;
 
+
     @Column
     private String content;
 

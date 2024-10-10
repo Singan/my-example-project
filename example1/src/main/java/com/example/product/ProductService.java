@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 public class ProductService {
     private final ProductRepository productRepository;
 
-
     public boolean productExists(Long id) {
         return productRepository.existsById(id);
     }
@@ -30,5 +29,9 @@ public class ProductService {
     public void productSave() {
         ProductEntity productEntity = ProductEntity.builder().reviewCount(0L).score(0f).build();
         productRepository.save(productEntity);
+    }
+
+    public void updateProductScore(long id , float score){
+        productRepository.updateProductScore(id , score);
     }
 }

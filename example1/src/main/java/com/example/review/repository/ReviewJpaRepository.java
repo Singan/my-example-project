@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface ReviewJpaRepository extends JpaRepository<ReviewEntity, Long> {
 
-    boolean existsByUserId(Long userId);
+    boolean existsByUserIdAndProductEntity(Long userId,ProductEntity productEntity);
 
     @Query("select r from ReviewEntity r" +
             " where r.id > :cursor and r.productEntity.id = :productId " +

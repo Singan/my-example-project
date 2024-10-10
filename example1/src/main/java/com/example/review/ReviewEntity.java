@@ -12,14 +12,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "review")
+@Table(name = "review",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"product_id" , "user_id"}))
 public class ReviewEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "BIGINT(20)")
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "BIGINT(20)", unique = true)
+    @Column(nullable = false, columnDefinition = "BIGINT(20)")
     private Long userId;
 
     @Column(nullable = false)
@@ -31,8 +32,8 @@ public class ReviewEntity extends BaseTimeEntity {
     @Column
     private String content;
 
-    @JoinColumn(name = "product_id")
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "product_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private ProductEntity productEntity;
 
     @Builder
@@ -46,7 +47,7 @@ public class ReviewEntity extends BaseTimeEntity {
     }
 
 
-    public Review toDomain(){
+    public Review toDomain() {
         return Review.builder()
                 .id(id)
                 .createDateTime(getCreateDateTime())

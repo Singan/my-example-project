@@ -9,15 +9,16 @@ import org.springframework.web.multipart.MultipartFile;
 public record ReviewInsertDto(
         Long userId,
         @Min(1)
-        @Max(7)
+        @Max(5)
         Float score,
-        String content , MultipartFile image) {
+        String content,
+        MultipartFile image
+) {
 
 
-    public ReviewEntity getReviewWithProduct() {
-
-
+    public ReviewEntity getReview(Long productId) {
         return ReviewEntity.builder()
+                .productEntity(ProductEntity.builder().id(productId).build())
                 .userId(userId).content(content).score(score).
                 build();
     }

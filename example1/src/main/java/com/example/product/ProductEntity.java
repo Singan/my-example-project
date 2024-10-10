@@ -41,12 +41,18 @@ public class ProductEntity {
 
 
     @Builder
-
     public ProductEntity(Long id, Long reviewCount, Float score, List<ReviewEntity> reviewEntities) {
         this.id = id;
         this.reviewCount = reviewCount;
         this.score = score;
         this.reviewEntities = reviewEntities;
+    }
+
+    public void updateCountAndScore(Float score){
+        reviewCount++;
+        float total = this.score * reviewCount;
+        total+= score;
+        this.score = total/reviewCount;
     }
 
 

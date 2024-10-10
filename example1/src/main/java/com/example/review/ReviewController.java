@@ -19,9 +19,10 @@ public class ReviewController {
 
     @PostMapping("/products/{productId}/reviews")
     public void reviewInsert(@PathVariable Long productId,
-                              @Valid ReviewInsertDto reviewInsertDto) throws IOException {
-        reviewService.reviewInsert(productId,
-                reviewInsertDto.getReviewWithProduct()
+                             @Valid ReviewInsertDto reviewInsertDto) throws IOException {
+
+        reviewService.reviewInsert(
+                reviewInsertDto.getReview(productId)
         );
     }
 }

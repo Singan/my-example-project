@@ -9,17 +9,17 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Repository
+@Transactional(readOnly = true)
 public class ProductRepositoryImpl implements ProductRepository {
     private final ReviewJpaRepository reviewJpaRepository;
     private final ProductJpaRepository productJpaRepository;
-
-    private final EntityManager em;
 
 
     @Override
@@ -40,9 +40,17 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    @Transactional
     public void save(ProductEntity productEntity) {
         productJpaRepository.save(productEntity);
     }
 
+    @Override
+    @Transactional
+    public void updateProductScore(long id, float score) {
+//        ProductEntity product = productJpaRepository.findByIdLock(id);
+//        product.updateCountAndScore(score);
 
+        productJpaRepository.updateProductEntityById(id , score);
+    }
 }

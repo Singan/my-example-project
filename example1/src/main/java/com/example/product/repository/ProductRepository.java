@@ -13,4 +13,6 @@ public interface ProductRepository {
 
 
     void save(ProductEntity productEntity);
+
+    void updateProductScore(long id,float score);
 }

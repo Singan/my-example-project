@@ -1,5 +1,6 @@
 package com.example.review.response;
 
+import com.example.review.domain.Review;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

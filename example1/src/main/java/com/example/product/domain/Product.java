@@ -16,7 +16,6 @@ public class Product {
     private Long reviewCount;
 
     private Float score;
-    private List<Review> reviews;
 
 
 }

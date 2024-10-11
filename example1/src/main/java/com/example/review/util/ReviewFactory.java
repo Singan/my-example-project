@@ -1,7 +1,10 @@
 package com.example.review.util;
 
 import com.example.review.domain.Review;
+import com.example.review.response.ReviewPagingList;
 import com.example.review.response.ReviewResponse;
+
+import java.util.List;
 
 public class ReviewFactory {
 
@@ -15,5 +18,9 @@ public class ReviewFactory {
                 review.getImageUrl(),
                 review.getContent(),
                 review.getCreateDateTime());
+    }
+
+    public static ReviewPagingList ofReviewPagingList(List<ReviewResponse> list){
+        return new ReviewPagingList(list);
     }
 }

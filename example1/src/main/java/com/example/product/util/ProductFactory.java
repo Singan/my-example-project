@@ -2,22 +2,22 @@ package com.example.product.util;
 
 import com.example.product.domain.Product;
 import com.example.product.response.ProductDetailDto;
-import com.example.review.response.ReviewList;
+import com.example.product.response.ProductWithReview;
+import com.example.review.response.ReviewPagingList;
 import com.example.review.util.ReviewFactory;
 
 public class ProductFactory {
 
 
-    public static ProductDetailDto ofProductDetail(Product product, Long cursor) {
+    public static ProductDetailDto ofProductDetail(Product product) {
 
         return new ProductDetailDto(
                 product.getReviewCount(),
-                product.getScore(),
-                cursor,
-                new ReviewList(
-                        product.getReviews()
-                                .stream()
-                                .map(r -> ReviewFactory.ofReviewResponse(r)).toList())
-        );
+                product.getScore());
+    }
+
+    public static ProductWithReview ofProductWithReview(ProductDetailDto pd, Long cursor, ReviewPagingList reviewList
+    ) {
+        return new ProductWithReview(pd, cursor, reviewList);
     }
 }

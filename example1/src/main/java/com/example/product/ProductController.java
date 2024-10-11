@@ -1,6 +1,9 @@
 package com.example.product;
 
 import com.example.product.response.ProductDetailDto;
+import com.example.product.response.ProductWithReview;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,8 +22,8 @@ public class ProductController {
 
 
     @GetMapping("/products/{productId}/reviews")
-    public ProductDetailDto productDetail(@PathVariable Long productId, @RequestParam Long cursor,
-                                          @RequestParam Integer size) throws IOException {
+    public ProductWithReview productDetail(@PathVariable Long productId, @RequestParam Long cursor,
+                                           @Valid @RequestParam @Min(1) Integer size) throws IOException {
 
         return productService.productDetail(
                 productId,

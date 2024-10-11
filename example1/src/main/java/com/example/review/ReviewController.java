@@ -16,13 +16,18 @@ import java.io.IOException;
 public class ReviewController {
 
     private final ReviewService reviewService;
-    private S3Service s3Service;
+    private final S3Service s3Service;
 
     @PostMapping("/products/{productId}/reviews")
     public void reviewInsert(@PathVariable Long productId,
                              @Valid ReviewInsertDto reviewInsertDto) throws IOException {
 
+        if (!reviewService.existsProductAndUser(reviewInsertDto.getReview(productId))) {
+            throw new IllegalArgumentException("잘못된 정보입니다.");
+        }
+
         if (!(reviewInsertDto.image() == null || reviewInsertDto.image().isEmpty())) {
+
             String path = s3Service.save(reviewInsertDto.image(), "review", "img");
             reviewService.reviewInsert(
                     reviewInsertDto.getReview(productId, path));

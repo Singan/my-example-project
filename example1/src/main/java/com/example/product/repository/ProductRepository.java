@@ -3,16 +3,19 @@ package com.example.product.repository;
 import com.example.product.ProductEntity;
 import com.example.product.domain.Product;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Repository;
+
+@Repository
 
 public interface ProductRepository {
 
 
     boolean existsById(Long id);
 
-    Product findByIdWithReviewsOrderByDescCreateDate(Long id , Long cursor, PageRequest pageRequest);
+    Product findByIdWithReviewsOrderByDescCreateDate(Long id);
 
 
-    void save(ProductEntity productEntity);
+    long save(ProductEntity productEntity);
 
     void updateProductScore(long id,float score);
 }

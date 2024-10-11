@@ -19,11 +19,15 @@ public class S3ServiceDummy implements S3Service {
             if (!isImageCheck(file.getOriginalFilename())) {
                 throw new RuntimeException(file.getOriginalFilename() + "은 이미지가 아닙니다.");
             }
-            String filePath = String.join("/", path) + "/" ;
+            StringBuilder sb = new StringBuilder();
+
+            for(String p : path){
+                sb.append("/").append(p);
+            }
 
 
 
-            return filePath;
+            return sb.toString() + "/" + file.getOriginalFilename();
         } catch (Exception e) {
             throw new RuntimeException("파일 저장 실패");
         }

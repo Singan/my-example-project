@@ -36,16 +36,11 @@ public class ProductEntity {
     private Float score;
 
 
-    @OneToMany(mappedBy = "productEntity")
-    private List<ReviewEntity> reviewEntities;
-
-
     @Builder
-    public ProductEntity(Long id, Long reviewCount, Float score, List<ReviewEntity> reviewEntities) {
+    public ProductEntity(Long id, Long reviewCount, Float score) {
         this.id = id;
         this.reviewCount = reviewCount;
         this.score = score;
-        this.reviewEntities = reviewEntities;
     }
 
     public void updateCountAndScore(Float score){
@@ -56,21 +51,12 @@ public class ProductEntity {
     }
 
 
-    public Product toDomain(List<ReviewEntity> reviewEntities) {
+    public Product toDomain() {
         return Product.builder()
                 .id(id)
                 .reviewCount(reviewCount)
-                .reviews(reviewEntities.stream().map(ReviewEntity::toDomain).toList())
                 .score(score)
                 .build();
     }
 
-    public Product toDomainWithReviews() {
-        return Product.builder()
-                .id(id)
-                .reviewCount(reviewCount)
-                .score(score)
-                .reviews(reviewEntities.stream().map(ReviewEntity::toDomain).toList())
-                .build();
-    }
 }

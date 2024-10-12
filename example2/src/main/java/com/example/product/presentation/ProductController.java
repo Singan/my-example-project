@@ -1,7 +1,9 @@
-package com.example.product;
+package com.example.product.presentation;
 
 import com.example.product.application.ProductService;
 import com.example.product.application.dto.request.ProductDecreaseDto;
+import com.example.product.presentation.dto.ProductRequestDecreaseDto;
+import com.example.product.presentation.dto.ProductRestockRequestDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,13 +22,12 @@ public class ProductController {
     }
 
     @PutMapping()
-    public void productDecrease(ProductDecreaseDto productDecreaseDto) {
-        productService.productSave();
+    public void productDecrease(ProductRequestDecreaseDto requestDecreaseDto) {
+        productService.productDecrease(requestDecreaseDto.getProductDecreaseDto());
     }
 
     @PostMapping("/{productId}/notifications/re-stock")
-    public void productRestock(@PathVariable Long productId) {
-
-
+    public void productRestock(@PathVariable Long productId , ProductRestockRequestDto requestDto) {
+        productService.productRestock(productId , requestDto.increaseStock());
     }
 }

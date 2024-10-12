@@ -41,6 +41,15 @@ public class ProductEntity {
                 build();
     }
 
+    public static ProductEntity from(Product product) {
+        return ProductEntity.
+                builder().
+                id(product.getId()).
+                name(product.getName()).
+                stock(product.getStock()).
+                build();
+    }
+
     @EventListener
     @Transactional
     public int increaseStock(int stock) {

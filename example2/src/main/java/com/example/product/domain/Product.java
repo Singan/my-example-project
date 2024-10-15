@@ -8,14 +8,17 @@ import lombok.Getter;
 public class Product {
     private Long id;
 
+    private Integer restockRound;
+
     private String name;
 
     @Min(0)
     private Integer stock;
     @Builder
-    public Product(Long id, String name, Integer stock) {
+    public Product(Long id, Integer restockRound, Integer stock , String name) {
         this.id = id;
-        this.name = name;
+        this.restockRound = restockRound;
         this.stock = stock;
+        this.name = name;
     }
 }

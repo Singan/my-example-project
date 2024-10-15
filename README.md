@@ -16,10 +16,26 @@
     - CANCELED_BY_ERROR (예외에 의한 발송 중단)
     - COMPLETED (완료)
 - 설계해야 할 테이블 목록
-    - Product (상품)
-    - ProductNotificationHistory (상품별 재입고 알림 히스토리)
-    - ProducUserNotification (상품별 재입고 알림을 설정한 유저)
-    - ProductUserNotificationHistory (상품 + 유저별 알림 히스토리)
+    1. Product (상품)
+        1. 상품 아이디
+        2. 재입고 회차
+        3. 재고 상태
+    2. ProductNotificationHistory (상품별 재입고 알림 히스토리)
+        1. 상품 아이디
+        2. 재입고 회차
+        3. 재입고 알림 발송 상태
+        4. 마지막 발송 유저 아이디
+    3. ProductUserNotification (상품별 재입고 알림을 설정한 유저)
+        1. 상품 아이디
+        2. 유저 아이디
+        3. 활성화 여부
+        4. 생성 날짜
+        5. 수정 날짜
+    4. ProductUserNotificationHistory (상품 + 유저별 알림 히스토리)
+        1. 상품 아이디
+        2. 유저 아이디
+        3. 재입고 회차
+        4. 발송 날짜
 - 재입고 API
     - 재입고 API 요청 시 알림 발송을 시작한다.
     - stock 을 어떻게 반영할 것인가.
@@ -27,6 +43,25 @@
     - 스톡을 줄인다. 즉 이 값이 재입고 API 에 반영되어야한다.
 - 유저 재입고 알림 신청 API
     - 유저가 ProducUserNotification 에 추가된다.
+
+---
+
+### 인덱스
+
+```java
+    List<NotificationUserEntity> findAllByProductIdAndActivatedIsTrue(Long productId);
+    List<NotificationUserEntity> findAllByProductIdAndUserIdGreaterThanAndActivatedIsTrue(Long productId, Long userId);
+```
+
+NotificationUserEntity = ProductUserNotification  테이블이다. 
+
+ProductId,UserId,Activated 를 인덱스로 세우거나
+
+ProductId,UserId 만 인덱스로 잡아도 Activated는 가져온 데이터 중 거르는 작업을 거칠 것이다.
+
+---
+
+### 로직
 
 스톡을 따로 관리하며 ↔ 알림 매니저에서 스톡을 관찰해야한다.
 

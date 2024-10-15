@@ -11,5 +11,5 @@ public interface NotificationService {
     List<NotificationUser> findByProductId(Long productId);
 
 
-    List<NotificationUser> manualSendUser(Long productId);
+    List<NotificationUser> manualSendUser(Long productId , Long lastUserId);
 }

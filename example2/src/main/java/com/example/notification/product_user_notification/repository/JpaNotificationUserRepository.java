@@ -8,4 +8,7 @@ import java.util.List;
 public interface JpaNotificationUserRepository extends JpaRepository<NotificationUserEntity, Long> {
 
     List<NotificationUserEntity> findAllByProductIdAndActivatedIsTrue(Long productId);
+
+
+    List<NotificationUserEntity> findAllByProductIdAndUserIdGreaterThanAndActivatedIsTrue(Long productId, Long userId);
 }

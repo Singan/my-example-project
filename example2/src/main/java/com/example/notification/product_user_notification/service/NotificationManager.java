@@ -63,7 +63,7 @@ public class NotificationManager {
         if (productNotification.getLastUserId() == null) {
             notificationUserEntities = notificationService.findByProductId(productId);
         } else {
-            notificationUserEntities = notificationService.findByProductId(productId);
+            notificationUserEntities = notificationService.manualSendUser(productId,productNotification.getLastUserId() );
         }
 
         Queue<NotificationUser> notificationUserQueue = new LinkedList<>(notificationUserEntities);

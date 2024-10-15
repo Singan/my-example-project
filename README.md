@@ -141,3 +141,20 @@ ProductId,UserId 만 인덱스로 잡아도 Activated는 가져온 데이터 중
 ```
 
 stockChk 가 false 면 soldOut , true 지만 가져온 유저를 모두 처리 못했다면 exception 모두 처리했다면 completed 로 상태 값을 변경해준다. 이를 업데이트하고 유저 알림 리스트를 한 번에 저장한 후 stockChk 값을 지운다.
+
+### RateLimiter
+
+```java
+       private final RateLimiter rateLimiter = RateLimiter.create(500);
+        while (stockChk = productStockChkMap.getOrDefault(productId, false) && !notificationUserQueue.isEmpty()) {
+            NotificationUser lastUser = notificationUserQueue.poll();
+            lastUserId = lastUser.getUserId();
+            log.info("productId : " + lastUser.getProductId() + " userId : " + lastUser.getUserId());
+            NotificationUserHistoryEntity historyEntity = NotificationUserHistoryEntity.builder()
+                    .userId(lastUser.getUserId())
+                    .createDateTime(LocalDateTime.now())
+                    .restockRound(productNotification.getRestockRound())
+                    .productId(lastUser.getProductId())
+                    .build();
+
+```

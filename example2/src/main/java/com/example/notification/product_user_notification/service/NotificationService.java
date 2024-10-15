@@ -9,4 +9,7 @@ public interface NotificationService {
     void notificationSetting(Long productId, Long userId);
 
     List<NotificationUser> findByProductId(Long productId);
+
+
+    List<NotificationUser> manualSendUser(Long productId);
 }

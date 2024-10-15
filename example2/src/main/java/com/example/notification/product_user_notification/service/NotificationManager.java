@@ -59,13 +59,20 @@ public class NotificationManager {
     private void processNotification(ProductNotificationEntity productNotification) {
         Long productId = productNotification.getProductId();
         boolean stockChk;
-        List<NotificationUser> notificationUserEntities = notificationService.findByProductId(productId);
+        List<NotificationUser> notificationUserEntities;
+        if (productNotification.getLastUserId() == null) {
+            notificationUserEntities = notificationService.findByProductId(productId);
+        } else {
+            notificationUserEntities = notificationService.findByProductId(productId);
+        }
+
         Queue<NotificationUser> notificationUserQueue = new LinkedList<>(notificationUserEntities);
-        NotificationUser lastUser;
+        Long lastUserId = null;
         ArrayList<NotificationUserHistoryEntity> historyEntityArrayList = new ArrayList<>();
         // 재고 체크 로직
         while (stockChk = productStockChkMap.getOrDefault(productId, false) && !notificationUserQueue.isEmpty()) {
-            lastUser = notificationUserQueue.poll();
+            NotificationUser lastUser = notificationUserQueue.poll();
+            lastUserId = lastUser.getUserId();
             log.info("productId : " + lastUser.getProductId() + " userId : " + lastUser.getUserId());
             NotificationUserHistoryEntity historyEntity = NotificationUserHistoryEntity.builder()
                     .userId(lastUser.getUserId())
@@ -78,18 +85,19 @@ public class NotificationManager {
             historyEntityArrayList.add(historyEntity);
             rateLimiter.acquire();
         }
-        ProductNotificationEntity update =
-                productNotificationService.
-                        findByProductNotification(productNotification.getId());
+
         // 상태 업데이트
         if (!stockChk) {
-            update.soldOut();
+            productNotification.soldOut();
         } else if (!notificationUserQueue.isEmpty()) {
             productNotification.exception();
         } else {
             productNotification.completed();
         }
-
+        productNotificationService.
+                update(productNotification.getId(),
+                        productNotification.getNotificationStatusEnum(),
+                        lastUserId);
 
         jpaNotificationUserHistoryRepository.saveAll(historyEntityArrayList);
         productStockChkMap.remove(productId);

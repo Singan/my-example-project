@@ -19,20 +19,20 @@ public class DataInitTestClass {
     private final NotificationService notificationService;
     @PostConstruct
     public void productSave() {
-//        for (int i = 1; i <= 2; i++) {
-//            Product product = Product.
-//                    builder().
-//                    name("상품" + i).
-//                    restockRound(0).
-//                    stock(generateRandomStock()).
-//                    build();
-//            productRepository.save(product);
-//        }
-//
-//        for (long i = 1; i <= 50; i++) {
-//            notificationService.notificationSetting(1L, i);
-//            notificationService.notificationSetting(2L, i);
-//        }
+        for (int i = 1; i <= 2; i++) {
+            Product product = Product.
+                    builder().
+                    name("상품" + i).
+                    restockRound(0).
+                    stock(generateRandomStock()).
+                    build();
+            productRepository.save(product);
+        }
+
+        for (long i = 1; i <= 50; i++) {
+            notificationService.notificationSetting(1L, i);
+            notificationService.notificationSetting(2L, i);
+        }
 
     }
 

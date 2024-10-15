@@ -22,11 +22,13 @@ public class ProductNotificationService {
                 .restockRound(restockRound)
                 .productId(productId)
                 .build();
-
         return productNotificationRepository.save(entity);
-
     }
-    public ProductNotificationEntity findByProductNotification(Long id) {
-        return productNotificationRepository.findById(id).get();
+    public ProductNotificationEntity findProductNotificationSetting(Long productId){
+        return productNotificationRepository.findById(productId).get();
+    }
+
+    public void update(Long id, NotificationStatusEnum statusEnum, Long userId) {
+        productNotificationRepository.updateStatusAndLastUser(id, statusEnum, userId);
     }
 }

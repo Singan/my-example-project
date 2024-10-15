@@ -16,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -24,20 +23,27 @@ public class ProductController {
     private final ProductNotificationService productNotificationService;
     private final NotificationManager notificationManager;
 
-    @PostMapping
+    @PostMapping("/products")
     public void saveProduct() {
         productService.productSave();
     }
 
-    @PutMapping()
+    @PutMapping("/products")
     public void productDecrease(ProductRequestDecreaseDto requestDecreaseDto) {
         productService.productDecrease(requestDecreaseDto.getProductDecreaseDto());
     }
 
-    @PostMapping("/{productId}/notifications/re-stock")
+    @PostMapping("/products/{productId}/notifications/re-stock")
     public void productRestock(@PathVariable Long productId, @RequestBody ProductRestockRequestDto requestDto) {
         int restockRound = productService.productRestock(productId, requestDto.increaseStock());
         ProductNotificationEntity productNotification =productNotificationService.productNotificationSetting(productId ,restockRound);
+        notificationManager.pushStock(productId);
+        notificationManager.pushNotification(productNotification);
+    }
+
+    @PostMapping("/admin/products/{productId}/notifications/re-stock")
+    public void productRestock(@PathVariable Long productId) {
+        ProductNotificationEntity productNotification =productNotificationService.findProductNotificationSetting(productId);
         notificationManager.pushStock(productId);
         notificationManager.pushNotification(productNotification);
     }

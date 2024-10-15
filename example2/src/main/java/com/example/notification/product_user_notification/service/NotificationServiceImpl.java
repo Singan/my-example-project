@@ -17,7 +17,6 @@ public class NotificationServiceImpl implements NotificationService {
 
     private final JpaNotificationUserRepository notificationUserRepository;
 
-    private final JpaProductNotificationRepository productNotificationRepository;
 
 
     public void notificationSetting(Long productId, Long userId) {
@@ -38,5 +37,9 @@ public class NotificationServiceImpl implements NotificationService {
                 .map(NotificationUserEntity::toDomain).toList();
     }
 
+    @Override
+    public List<NotificationUser> manualSendUser(Long productId) {
+        return null;
+    }
 
 }
